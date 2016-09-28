@@ -83,6 +83,80 @@ class LinkedList:
             current = current.next
         
         raise IndexError()
+    
+    #6
+    def sortedInsert(self,  node):
+        #remove node from old position
+        #head special case
+        if self.head == node:
+            self.head = node.next
+            node.next = None
+        
+        #walk through and find node to remove
+        current = self.head
+        while current is not None:
+            if current.next == node:
+                current.next = node.next;
+                node.next = None
+                break
+            current = current.next
+        
+        #find new position
+        #head special case
+        if self.head.data > node.data:
+            node.next = self.head
+            self.head = node
+            return
+        
+        #walk through and find insert spot
+        current = self.head
+        last = None
+        while current is not None:
+            if current.data > node.data and last.data <= node.data:
+                last.next = node
+                node.next = current
+                break
+            last = current;
+            current = current.next
+        
+        #no spot found, must go on the end
+        if node.next is None:
+            last.next = node
+    
+    #7
+    def insertSort(self):
+        unvisited = []
+        current = self.head
+        while current is not None:
+            unvisited.append(current)
+            current = current.next
+        
+        for node in unvisited:
+            self.sortedInsert(node)
+    
+    #8
+    def append(self,  list2):
+        current = self.head
+        if current is None: #empty first list case
+            self.head = list2.head
+        else: #find the last node
+            while current.next is not None:
+                current = current.next
+            current.next = list2.head
+        list2.head = None
+    
+    #9
+    def frontBackSplit(self):
+        len = self.length()
+        if len == 0:
+            return [None,  None]
+        
+        len1 = len - (len // 2)
+        current = self.head
+        for i in range(0,  len1 - 1):
+            current = current.next
+        #now current is the last node of the front half
+        return [self.head,  current.next]
 
 def buildOneTwoThree():
     list = LinkedList();

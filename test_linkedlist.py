@@ -58,3 +58,71 @@ def test_insertNth():
     list.insertNth(5,  6)
     assert list.getNth(5) == 6
     assert list.length() == 6
+
+def test_sortedInsert():
+    list = buildOneTwoThree()
+    list.insertNth(1,  5) #{1, 5, 2, 3}
+    list.sortedInsert(list.head.next) #{1, 2, 3, 5}
+    assert list.getNth(3) == 5
+    list.insertNth(4,  4) #{1, 2, 3, 5, 4}
+    list.sortedInsert(list.head.next.next.next.next)
+    assert list.getNth(3) == 4
+    list.push(6) #{6, 1, 2, 3, 4, 5}
+    list.sortedInsert(list.head)
+    assert list.getNth(5) == 6
+    list.insertNth(5,  1) #{1, 2, 3, 4, 5, 1, 6}
+    list.sortedInsert(list.head.next.next.next.next.next)
+    assert list.pop() == 1
+    assert list.pop() == 1
+    list.insertNth(3,  1) #{2, 3, 4, 1, 5, 6}
+    list.sortedInsert(list.head.next.next.next)
+    assert list.pop() == 1
+
+def test_insertSort():
+    list = buildOneTwoThree()
+    list.push(20)
+    list.push(25)
+    list.push(1)
+    list.push(23)
+    list.push(4)
+    list.push(0)
+    list.insertSort()
+    assert list.pop() == 0
+    assert list.pop() == 1
+    assert list.pop() == 1
+    assert list.pop() == 2
+    assert list.pop() == 3
+    assert list.pop() == 4
+    assert list.pop() == 20
+    assert list.pop() == 23
+    assert list.pop() == 25
+    assert list.length() == 0
+
+def test_append():
+    list1 = buildOneTwoThree()
+    list2 = buildOneTwoThree()
+    list1.append(list2)
+    assert list1.length() == 6
+    assert list2.length() == 0
+    list1 = LinkedList()
+    list2 = buildOneTwoThree()
+    list1.append(list2)
+    assert list1.length() == 3
+    assert list2.length() == 0
+    list1.append(list2)
+    assert list1.length() == 3
+    assert list2.length() == 0
+
+def test_frontBackSplit():
+    list = buildOneTwoThree()
+    node1,  node2 = list.frontBackSplit()
+    assert node1.data == 1
+    assert node2.data == 3
+    list = LinkedList()
+    node1,  node2 = list.frontBackSplit()
+    assert node1 is None
+    assert node2 is None
+    list.push(1)
+    node1,  node2 = list.frontBackSplit()
+    assert node1.data == 1
+    assert node2 is None
