@@ -31,6 +31,58 @@ class LinkedList:
                 count += 1
             current = current.next
         return count
+    
+    #2
+    def getNth(self,  index):
+        current = self.head
+        i = index
+        while current is not None:
+            if i == 0:
+                return current.data
+            i -= 1
+            current = current.next
+        return -1
+    
+    #3
+    def deleteList(self):
+        current = self.head
+        while current is not None:
+            deleteMe = current
+            current = current.next
+            #the point of the assignment is to free memory, so that would happen here if this weren't in python
+            del deleteMe.data
+            deleteMe.next = None
+        self.head = None
+    
+    #4
+    def pop(self):
+        deleteMe = self.head
+        if deleteMe is None:
+            raise Exception("list is empty - can't pop()")
+        self.head = deleteMe.next
+        data = deleteMe.data
+        del deleteMe.data
+        deleteMe.next = None
+        return data
+    
+    #5
+    def insertNth(self,  index,  data):
+        if index == 0:
+            self.push(data)
+            return
+        
+        current = self.head
+        i = index
+        while current is not None:
+            if i == 1:
+                newNode = self.Node(data)
+                newNode.next = current.next
+                current.next = newNode
+                return
+            i -= 1
+            current = current.next
+        
+        raise IndexError()
 
 def buildOneTwoThree():
     list = LinkedList();
